@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="planners")
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
-public class Planner {
+public class Planner extends BaseEntity{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
