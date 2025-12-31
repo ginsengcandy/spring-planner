@@ -1,0 +1,38 @@
+package com.example.planner.entity;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Entity
+@Table(name="planners")
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
+public class Planner {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+    @Column(length=50, nullable=false)
+    private String title;
+    @Column(length=500, nullable=false)
+    private String contents;
+    @Column(length=10, nullable=false)
+    private String owner;
+    @Column(length=20, nullable=false)
+    private String password;
+
+    public Planner(String title, String contents, String owner, String password){
+        this.title = title;
+        this.contents = contents;
+        this.owner = owner;
+        this.password = password;
+    }
+
+    public void updatePlanner(String title, String owner) {
+        this.title=title;
+        this.owner=owner;
+    }
+}
