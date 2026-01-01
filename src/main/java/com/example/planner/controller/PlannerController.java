@@ -49,8 +49,11 @@ public class PlannerController {
     }
     //DELETE-DELETE
     @DeleteMapping("/planners/{plannerId}")
-    public ResponseEntity<Void> deletePlanner(@PathVariable Long plannerId) {
-        plannerService.deletePlanner(plannerId);
+    public ResponseEntity<Void> deletePlanner(
+            @PathVariable Long plannerId,
+            @RequestBody DeletePlannerRequest request
+    ) {
+        plannerService.deletePlanner(plannerId, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

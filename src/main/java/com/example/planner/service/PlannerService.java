@@ -92,6 +92,9 @@ public class PlannerService {
         Planner planner = plannerRepository.findById(plannerId).orElseThrow(
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
+        //비밀번호 검사
+        boolean correctPassword = request.getPassword().equals(planner.getPassword());
+        if(!correctPassword) throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         planner.updatePlanner(request.getTitle(), request.getOwner());
         return new UpdatePlannerResponse(
                 planner.getId(),
@@ -104,9 +107,13 @@ public class PlannerService {
     }
     //DELETE
     @Transactional
-    public void deletePlanner(Long plannerId) {
-        boolean existence = plannerRepository.existsById(plannerId);
-        if(!existence) throw new IllegalStateException("존재하지 않는 일정입니다.");
+    public void deletePlanner(Long plannerId, DeletePlannerRequest request) {
+        Planner planner = plannerRepository.findById(plannerId).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+        );
+        //비밀번호 검사
+        boolean correctPassword = request.getPassword().equals(planner.getPassword());
+        if(!correctPassword) throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         plannerRepository.deleteById(plannerId);
     }
 
