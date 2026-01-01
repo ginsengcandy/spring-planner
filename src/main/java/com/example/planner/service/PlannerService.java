@@ -67,19 +67,24 @@ public class PlannerService {
                 );
         }
         return dtos;
+    }
+    @Transactional
+    public List<GetPlannerResponse> findByOwner(String owner){
+        List<Planner> planners = plannerRepository.findAll();
+        //READ 작성자명으로 조회
         //방법2 -> Stream()으로 가져오기
-//        return planners.stream()
-//                .filter(p -> p.equals(owner))
-//                .map(
-//                        planner -> new GetPlannerResponse(
-//                                planner.getId(),
-//                                planner.getTitle(),
-//                                planner.getContents(),
-//                                planner.getOwner(),
-//                                planner.getCreatedAt(),
-//                                planner.getModifiedAt()
-//                        )
-//                ).toList();
+        return planners.stream()
+                .filter(p -> owner.equals(p.getOwner())) //getOwner() 결과가 owner와 같은 planer만 필터링
+                .map(
+                        planner -> new GetPlannerResponse(
+                                planner.getId(),
+                                planner.getTitle(),
+                                planner.getContents(),
+                                planner.getOwner(),
+                                planner.getCreatedAt(),
+                                planner.getModifiedAt()
+                        )
+                ).toList();
     }
     //UPDATE
     @Transactional

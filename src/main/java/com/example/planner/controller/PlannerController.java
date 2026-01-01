@@ -20,16 +20,23 @@ public class PlannerController {
     ){
         return ResponseEntity.status(HttpStatus.CREATED).body(plannerService.createPlanner(request));
     }
-    //READ-GET (단건조회)
+    //READ-GET (id로 단건조회)
     @GetMapping("/planners/{plannerId}")
     public ResponseEntity<GetPlannerResponse> getPlanner(
             @PathVariable Long plannerId
     ){
         return ResponseEntity.status(HttpStatus.OK).body(plannerService.findOne(plannerId));
     }
-    //READ-GET (전체조회)
+    //READ-GET (전체조회 또는 작성자명으로 조회)
     @GetMapping("/planners")
-    public ResponseEntity<List<GetPlannerResponse>> getPlanner(){
+    public ResponseEntity<List<GetPlannerResponse>> getPlanners(
+            @RequestParam(required=false) String owner
+    ) {
+        //작성자명으로 조회
+        if(owner != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(plannerService.findByOwner(owner));
+        }
+        //전체조회(RequestParameter 없는 경우)
         return ResponseEntity.status(HttpStatus.OK).body(plannerService.findAll());
     }
     //UPDATE-PUT
