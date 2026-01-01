@@ -5,10 +5,10 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 @Getter
 public class UpdatePlannerResponse {
-    private final Long id,
-    private final String title,
-    private final String contents,
-    private final String owner,
+    private final Long id;
+    private final String title;
+    private final String contents;
+    private final String owner;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
