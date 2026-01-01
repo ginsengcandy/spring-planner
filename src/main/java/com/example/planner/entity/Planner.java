@@ -15,9 +15,9 @@ public class Planner extends BaseEntity{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column(length=50, nullable=false)
+    @Column(length=30, nullable=false)
     private String title;
-    @Column(length=500, nullable=false)
+    @Column(length=200, nullable=false)
     private String contents;
     @Column(length=10, nullable=false)
     private String owner;
