@@ -2,12 +2,14 @@ package com.example.planner.dto;
 
 import com.example.planner.entity.Comment;
 import com.example.planner.entity.Planner;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@JsonPropertyOrder({"id", "title", "owner", "contents", "createdAt", "modifiedAt", "comments"})
 public class GetPlannerResponse {
     private final Long id;
     private final String title;
