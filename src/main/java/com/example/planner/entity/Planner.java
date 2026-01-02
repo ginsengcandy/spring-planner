@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -23,6 +25,8 @@ public class Planner extends BaseEntity{
     private String owner;
     @Column(length=20, nullable=false)
     private String password;
+    @OneToMany(mappedBy = "planner", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     public Planner(String title, String contents, String owner, String password){
         this.title = title;

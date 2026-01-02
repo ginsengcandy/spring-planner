@@ -39,14 +39,7 @@ public class PlannerService {
         Planner planner = plannerRepository.findById(plannerId).orElseThrow(
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
-        return new GetPlannerResponse(
-                planner.getId(),
-                planner.getTitle(),
-                planner.getContents(),
-                planner.getOwner(),
-                planner.getCreatedAt(),
-                planner.getModifiedAt()
-        );
+        return new GetPlannerResponse(planner);
     }
     //READ 전체 조회
     @Transactional(readOnly=true)
@@ -55,16 +48,7 @@ public class PlannerService {
         //방법 1 - List로 가져오기
         List<GetPlannerResponse> dtos = new ArrayList<>();
         for (Planner planner : planners) {
-                dtos.add(
-                        new GetPlannerResponse(
-                                planner.getId(),
-                                planner.getTitle(),
-                                planner.getContents(),
-                                planner.getOwner(),
-                                planner.getCreatedAt(),
-                                planner.getModifiedAt()
-                        )
-                );
+                dtos.add(new GetPlannerResponse(planner));
         }
         return dtos;
     }
@@ -75,16 +59,7 @@ public class PlannerService {
         //방법2 -> Stream()으로 가져오기
         return planners.stream()
                 .filter(p -> owner.equals(p.getOwner())) //getOwner() 결과가 owner와 같은 planer만 필터링
-                .map(
-                        planner -> new GetPlannerResponse(
-                                planner.getId(),
-                                planner.getTitle(),
-                                planner.getContents(),
-                                planner.getOwner(),
-                                planner.getCreatedAt(),
-                                planner.getModifiedAt()
-                        )
-                ).toList();
+                .map(GetPlannerResponse::new).toList();
     }
     //UPDATE
     @Transactional

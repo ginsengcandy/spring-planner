@@ -1,8 +1,11 @@
 package com.example.planner.dto;
 
+import com.example.planner.entity.Comment;
+import com.example.planner.entity.Planner;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 public class GetPlannerResponse {
@@ -12,13 +15,15 @@ public class GetPlannerResponse {
     private final String owner;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
+    private final List<GetCommentResponse> comments;
 
-    public GetPlannerResponse(Long id, String title, String contents, String owner, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-        this.owner = owner;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+    public GetPlannerResponse(Planner planner) {
+        this.id = planner.getId();
+        this.title = planner.getTitle();
+        this.contents = planner.getContents();
+        this.owner = planner.getOwner();
+        this.createdAt = planner.getCreatedAt();
+        this.modifiedAt = planner.getModifiedAt();
+        this.comments = planner.getComments().stream().map(c -> new GetCommentResponse(c)).toList();
     }
 }
