@@ -18,6 +18,12 @@ public class PlannerService {
     //CREATE
     @Transactional
     public CreatePlannerResponse createPlanner(CreatePlannerRequest request){
+        if(request.getTitle()==null) throw new IllegalStateException("제목은 필수 입력 항목입니다.");
+        if(request.getTitle().length()>30) throw new IllegalStateException("제목은 30자를 초과할 수 없습니다.");
+        if(request.getContents()==null) throw new IllegalStateException("본문은 필수 입력 항목입니다.");
+        if(request.getContents().length()>100) throw new IllegalStateException("본문은 200자를 넘을 수 없습니다.");
+        if(request.getOwner()==null) throw new IllegalStateException("작성자는 필수 입력 항목입니다.");
+        if(request.getPassword()==null) throw new IllegalStateException("비밀번호는 필수 입력 항목입니다.");
         Planner planner = new Planner(
                 request.getTitle(),
                 request.getContents(),
@@ -72,6 +78,10 @@ public class PlannerService {
         if(!ObjectUtils.nullSafeEquals(request.getPassword(), planner.getPassword())) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
+        //필수 입력사항 유효성 검사
+        if(request.getTitle()==null) throw new IllegalStateException("제목은 필수 입력 항목입니다.");
+        if(request.getTitle().length()>30) throw new IllegalStateException("제목은 30자를 초과할 수 없습니다.");
+        if(request.getOwner()==null) throw new IllegalStateException("작성자는 필수 입력 항목입니다.");
         planner.updatePlanner(request.getTitle(), request.getOwner());
         return new UpdatePlannerResponse(
                 planner.getId(),

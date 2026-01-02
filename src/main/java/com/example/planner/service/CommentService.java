@@ -25,6 +25,10 @@ public class CommentService {
         //예외처리-11번째 댓글 작성 시도
         long commentCount = commentRepository.countByPlannerId(plannerId);
         if(commentCount >= 10) throw new IllegalStateException("댓글은 10개까지만 작성할 수 있습니다.");
+        if(request.getContents()==null) throw new IllegalStateException("댓글 본문은 필수 항목입니다.");
+        if(request.getContents().length()>100) throw new IllegalStateException("댓글 분량은 100자를 초과할 수 없습니다.");
+        if(request.getOwner()==null) throw new IllegalStateException("댓글 작성자는 필수 항목입니다.");
+        if(request.getPassword()==null) throw new IllegalStateException("댓글 비밀번호를 입력하세요");
         //비즈니스 로직 : 댓글 등록
         Comment comment = new Comment(
                 request.getContents(),
