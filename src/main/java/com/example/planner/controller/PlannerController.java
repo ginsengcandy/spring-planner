@@ -32,12 +32,7 @@ public class PlannerController {
     public ResponseEntity<List<GetPlannerResponse>> getPlanners(
             @RequestParam(required=false) String owner
     ) {
-        //작성자명으로 조회
-        if(owner != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(plannerService.findByOwner(owner));
-        }
-        //전체조회(RequestParameter 없는 경우)
-        return ResponseEntity.status(HttpStatus.OK).body(plannerService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(plannerService.find(owner));
     }
     //UPDATE-PUT
     @PutMapping("/planners/{plannerId}")

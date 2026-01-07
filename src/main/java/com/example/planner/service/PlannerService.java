@@ -4,6 +4,8 @@ import com.example.planner.dto.*;
 import com.example.planner.entity.Planner;
 import com.example.planner.repository.PlannerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -48,9 +50,16 @@ public class PlannerService {
         );
         return new GetPlannerResponse(planner);
     }
-    //READ 전체 조회
     @Transactional(readOnly=true)
-    public List<GetPlannerResponse> findAll(){
+    public List<GetPlannerResponse> find(String owner) {
+        if(owner != null) {
+            return findByOwner(owner);
+        }
+        return findAll();
+    }
+    //READ 전체 조회
+
+    private List<GetPlannerResponse> findAll(){
         List<Planner> planners = plannerRepository.findAll();
         //방법 1 - List로 가져오기
         List<GetPlannerResponse> dtos = new ArrayList<>();
@@ -59,8 +68,8 @@ public class PlannerService {
         }
         return dtos;
     }
-    @Transactional
-    public List<GetPlannerResponse> findByOwner(String owner){
+
+    private List<GetPlannerResponse> findByOwner(String owner){
         List<Planner> planners = plannerRepository.findAll();
         //READ 작성자명으로 조회
         //방법2 -> Stream()으로 가져오기
